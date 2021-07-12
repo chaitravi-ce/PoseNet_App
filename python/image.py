@@ -3,8 +3,6 @@ import tensorflow as tf
 import cv2
 import matplotlib.pyplot as plt
 
-print("start")
-
 interpreter = tf.lite.Interpreter(model_path="../assets/posenet_mv1_075_float_from_checkpoints.tflite")
 interpreter.allocate_tensors()
 
@@ -16,13 +14,69 @@ input_shape = input_details[0]['shape']
 #print(input_shape)
 
 def read_image(x):
-    #x = cv2.imread(x, cv2.IMREAD_COLOR)
+    x = cv2.imread(x, cv2.IMREAD_COLOR)
     x = cv2.resize(x, (337,337))
     x = x.astype(np.float32)
     x = x/255
     x = np.expand_dims(x, axis=0)
     #x = (np.float32(x) - 127.5) / 127.5
     return x
+
+input_data = read_image('./index.jpeg')
+# print(input_data.shape)
+# cv2.imshow("img",input_data)
+# cv2.waitKey(10000)
+# plt.imshow(img)
+# plt.show()
+
+interpreter.set_tensor(input_details[0]['index'], input_data)
+
+interpreter.invoke()
+
+# # The function `get_tensor()` returns a copy of the tensor data.
+# # Use `tensor()` in order to get a pointer to the tensor.
+output_data = interpreter.get_tensor(output_details[0]['index'])
+offset_data = interpreter.get_tensor(output_details[1]['index'])
+heatmaps = np.squeeze(output_data)
+offsets = np.squeeze(offset_data)
+#prob = np.array(output_data[0])
+print(heatmaps.shape)
+print(offsets.shape)
+
+def parse_output(heatmap_data,offset_data, threshold):
+
+  joint_num = heatmap_data.shape[-1]
+  pose_kps = np.zeros((joint_num,3), np.uint32)
+
+  for i in range(heatmap_data.shape[-1]):
+
+      joint_heatmap = heatmap_data[...,i]
+      max_val_pos = np.squeeze(np.argwhere(joint_heatmap==np.max(joint_heatmap)))
+      remap_pos = np.array(max_val_pos/8*257,dtype=np.int32)
+      pose_kps[i,0] = int(remap_pos[0] + offset_data[max_val_pos[0],max_val_pos[1],i])
+      pose_kps[i,1] = int(remap_pos[1] + offset_data[max_val_pos[0],max_val_pos[1],i+joint_num])
+      max_prob = np.max(joint_heatmap)
+
+      if max_prob > threshold:
+        if pose_kps[i,0] < 257 and pose_kps[i,1] < 257:
+          pose_kps[i,2] = 1
+
+  return pose_kps
+
+# pose = parse_output(heatmaps, offsets, 0.1)
+# print(pose)
+# res = []
+# for i in range(prob.shape[2]):
+#     res.append(prob[:,:,i])
+#     print(prob[:, :, i].shape)  # a view of original array. shape=(32, 32)
+# print(len(res))
+
+# test = res[0]
+# print(test)
+
+#print(prob.shape)
+# cv2.imshow('OUT',test)
+# cv2.waitKey(10000)
 
 PARTS = {
     0: 'NOSE',
@@ -126,44 +180,19 @@ class KeyPoint():
         return 'part: {} location: {} confidence: {}'.format(
             self.body_part, (self.x, self.y), self.confidence)
 
-def poseNet(img):
-    input_data = read_image(img)
-    interpreter.set_tensor(input_details[0]['index'], input_data)
-    interpreter.invoke()
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    offset_data = interpreter.get_tensor(output_details[1]['index'])
-    heatmaps = np.squeeze(output_data)
-    offsets = np.squeeze(offset_data)
-    per = Person(heatmaps, offsets)
-    list = []
-    print(per)
-    for i in range(len(per.keypoints)):
-        # print(per.keypoints[i].x, per.keypoints[i].y, per.keypoints[i].body_part)
-        map = {'body_part': per.keypoints[i].body_part, 'x': per.keypoints[i].x, 'y': per.keypoints[i].y, 'confidence': per.keypoints[i].confidence}
-        list.append(map)
-    #print(list)
-    return list
+per = Person(heatmaps, offsets)
+print(per.to_string())
 
-print("Video")
-vid = cv2.VideoCapture('./Lambergini Video.mp4')
-final = []
+print(len(per.keypoints))
 
-while True:
-    ret, image = vid.read()
-    if ret==True:
-        res = poseNet(image)
-        print(res)
-        final.append(res)
-        print(len(final))
-        cv2.waitKey(1)
-        if cv2.waitKey(1) & 0xFF == ord('s'):
-            		break
+list = []
 
-    else:
-	        break
-	
-vid.release()
+for i in range(len(per.keypoints)):
+    print(per.keypoints[i].x, per.keypoints[i].y, per.keypoints[i].body_part)
+    map = {'body_part': per.keypoints[i].body_part, 'x': per.keypoints[i].x, 'y': per.keypoints[i].y, 'confidence': per.keypoints[i].confidence}
+    list.append(map)
 
-cv2.destroyAllWindows()
+print(list)
 
-print("The video was successfully saved")
+# plt.imshow(prob, cmap='hot', interpolation='nearest')
+# plt.show()

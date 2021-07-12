@@ -1,7 +1,18 @@
 import numpy as np
 import tensorflow as tf
 import cv2
+from firebase import firebase
 import matplotlib.pyplot as plt
+import json
+
+firebase = firebase.FirebaseApplication("https://posenet-6a4c4-default-rtdb.firebaseio.com/", None)
+
+data = {
+    "Name": "PosenetApp",
+    "type": "test"
+}
+
+res = firebase.post("/posenet-6a4c4-default-rtdb/Test", data)
 
 print("start")
 
@@ -154,6 +165,8 @@ while True:
         res = poseNet(image)
         print(res)
         final.append(res)
+        if len(final) == 200:
+                    break
         print(len(final))
         cv2.waitKey(1)
         if cv2.waitKey(1) & 0xFF == ord('s'):
@@ -167,3 +180,11 @@ vid.release()
 cv2.destroyAllWindows()
 
 print("The video was successfully saved")
+
+print(json.dumps(str(final)))
+
+data = {
+    "Lambergini" : json.dumps(str(final))
+}
+res = firebase.post("/posenet-6a4c4-default-rtdb/Lamborghini", data)
+print(res)

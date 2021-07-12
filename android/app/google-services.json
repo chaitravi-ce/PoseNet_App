@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "209653684688",
+    "firebase_url": "https://posenet-6a4c4-default-rtdb.firebaseio.com",
+    "project_id": "posenet-6a4c4",
+    "storage_bucket": "posenet-6a4c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209653684688:android:96e51cfad915b7bbfa81d5",
+        "android_client_info": {
+          "package_name": "com.example.posenet_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209653684688-pvrcg6tgr9svrojt2dbhhfuik3m6pf91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3D5nbU6iXLi6zZFizqfEaoVTB9n0dO3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209653684688-pvrcg6tgr9svrojt2dbhhfuik3m6pf91.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

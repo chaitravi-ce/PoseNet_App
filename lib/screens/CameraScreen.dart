@@ -5,7 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
 import 'dart:math';
 
-import './Camera.dart';
+import '../services/Camera.dart';
 import './RenderData.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -37,6 +37,8 @@ class _CameraScreenState extends State<CameraScreen> {
     }
     setState(() {
       _data = data;
+      // print("==================================data============================");
+      // print(data);
       _imageHeight = imageHeight;
       _imageWidth = imageWidth;
     });
@@ -60,7 +62,7 @@ class _CameraScreenState extends State<CameraScreen> {
             cameras: widget.cameras,
             setRecognitions: _setRecognitions,
           ),
-          RenderDataArmPress(
+          RenderData(
             data: _data == null ? [] : _data,
             previewH: max(_imageHeight, _imageWidth),
             previewW: min(_imageHeight, _imageWidth),

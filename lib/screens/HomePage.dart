@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:camera/camera.dart';
 import 'package:posenet_app/main.dart';
+import 'package:posenet_app/screens/TestScreen.dart';
 import './CameraScreen.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,12 +23,23 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(title: Text("Pose Estimation"),),
       body: Center(
-        child: TextButton(
-          child: Text("Tap Me"), 
-          onPressed: (){
-            print("tap");
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras,)));
-          },
+        child: Column(
+          children: [
+            TextButton(
+              child: Text("Tap Me"), 
+              onPressed: (){
+                print("tap");
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras,)));
+              },
+            ),
+            TextButton(
+              child: Text("Test"), 
+              onPressed: (){
+                print("tap");
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TestScreen()));
+              },
+            ),
+          ],
         ),
       )
     );

@@ -24,6 +24,7 @@ class _CameraScreenState extends State<CameraScreen> {
   int _imageHeight = 0;
   int _imageWidth = 0;
   int x = 1;
+  List<dynamic> res = [];
 
   @override
   void initState() {
@@ -68,6 +69,7 @@ class _CameraScreenState extends State<CameraScreen> {
             previewW: min(_imageHeight, _imageWidth),
             screenH: screen.height,
             screenW: screen.width,
+            res: res
           ),
         ],
       ),

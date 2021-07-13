@@ -10,15 +10,17 @@ class RenderData extends StatefulWidget {
   final int previewW;
   final double screenH;
   final double screenW;
+  final List<dynamic> res;
 
-  RenderData({this.data, this.previewH, this.previewW, this.screenH, this.screenW});
+  RenderData({this.data, this.previewH, this.previewW, this.screenH, this.screenW, this.res});
   @override
   _RenderDataState createState() => _RenderDataState();
 }
 
 class _RenderDataState extends State<RenderData> {
+
   Map<String, List<double>> inputArr;
-  List<Map<String, List<double>>> finalData;
+  List<Map<String, List<double>>> finalData = [];
   double shoulderLY;
   double shoulderRY;
 
@@ -43,8 +45,8 @@ class _RenderDataState extends State<RenderData> {
 
   @override
   void initState() {
+    print("ininti------------------------------------------------------------");
     inputArr = new Map();
-    finalData = [];
     shoulderLY = 0;
     shoulderRY = 0;
     kneeRY = 0;
@@ -52,12 +54,18 @@ class _RenderDataState extends State<RenderData> {
     super.initState();
   }
 
-  Future<void> _countingLogic(Map<String, List<double>> poses) async {
+  Future<Map<String, List<double>>> _countingLogic(Map<String, List<double>> poses) async {
     if (poses != null) {
       print("in func");
-      finalData.add(poses);
-      //print(finalData);
-      print(finalData.length);
+      widget.res.add(poses);
+      print(widget.res);
+      //print(poses);
+      // finalData.add(poses);
+      // print(finalData);
+      // print(finalData.length);
+      return poses;
+    }else{
+      return null;
     }
   }
 
@@ -182,7 +190,10 @@ class _RenderDataState extends State<RenderData> {
           );
         }).toList();
 
-        _countingLogic(inputArr);
+        _countingLogic(inputArr).then((t) {
+          print("=============++++++++++++++===================");
+          print(t);
+        });
         inputArr.clear();
 
         lists..addAll(list);
@@ -241,8 +252,9 @@ class _RenderDataState extends State<RenderData> {
           child: TextButton(
             child: Text("Get Results"),
             onPressed: (){
-              print(finalData.length);
-              Navigator.push(
+              print("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+              print(widget.res);
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ResultScreen(finalData: finalData))
               );

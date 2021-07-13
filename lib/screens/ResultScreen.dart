@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ResultScreen extends StatefulWidget {
@@ -27,18 +26,20 @@ class _ResultScreenState extends State<ResultScreen> {
 
   void getResults()async{
     _isLoading = true;
-    final url = 'https://posenet-6a4c4-default-rtdb.firebaseio.com/Lamborghini';
-    final response = await http.get(url);
-    final extractedData = json.decode(response.body) as Map<String,dynamic>;
-    print(extractedData);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Results"),),
-      body: Container(
-        child: Text(""),
+      body: TextButton(
+        child: Text("Test"),
+        onPressed: (){
+          print(widget.finalData.length);
+          for(var item in widget.finalData){
+            print(item["nose"]);
+          }
+        },
       )
     );
   }

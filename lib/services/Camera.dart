@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:posenet_app/screens/ResultScreen.dart';
 import 'package:tflite/tflite.dart';
 import 'dart:math' as math;
 
@@ -20,6 +21,7 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   CameraController controller;
   bool isDetecting = false;
+  final List<dynamic> finalR = [];
 
   @override
   void initState() {
@@ -61,7 +63,9 @@ class _CameraState extends State<Camera> {
 
               widget.setRecognitions(recognitions, img.height, img.width);
               print("=========================================================");
-              print(recognitions);
+              //print(recognitions);
+              finalR.add(recognitions);
+              //print(finalR);
               isDetecting = false;
             });
           }
@@ -92,12 +96,27 @@ class _CameraState extends State<Camera> {
     var screenRatio = screenH / screenW;
     var previewRatio = previewH / previewW;
 
-    return OverflowBox(
-      maxHeight:
-          screenRatio > previewRatio ? screenH : screenW / previewW * previewH,
-      maxWidth:
-          screenRatio > previewRatio ? screenH / previewH * previewW : screenW,
-      child: CameraPreview(controller),
+    return Stack(
+      children: [
+        OverflowBox(
+          maxHeight:
+              screenRatio > previewRatio ? screenH : screenW / previewW * previewH,
+          maxWidth:
+              screenRatio > previewRatio ? screenH / previewH * previewW : screenW,
+          child: CameraPreview(controller),
+        ),
+        TextButton(
+          child: Text("Get"),
+          onPressed: (){
+            print(finalR.length);
+            print(finalR);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ResultScreen(finalData: finalR))
+            );
+          },
+        )
+      ],
     );
   }
 }

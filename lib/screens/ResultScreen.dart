@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class ResultScreen extends StatefulWidget {
 
-  final List<Map<String, List<double>>> finalData;
+  final List<dynamic> finalData;
 
   const ResultScreen({this.finalData});
 
@@ -35,10 +35,13 @@ class _ResultScreenState extends State<ResultScreen> {
       body: TextButton(
         child: Text("Test"),
         onPressed: (){
-          print(widget.finalData.length);
-          for(var item in widget.finalData){
-            print(item["nose"]);
+          var t = widget.finalData;
+          for(var item in t){
+            print(item[0]['keypoints'][18]);
           }
+          // for(var item in widget.finalData){
+          //   print(item["nose"]);
+          // }
         },
       )
     );

@@ -54,11 +54,11 @@ class _RenderDataState extends State<RenderData> {
     super.initState();
   }
 
-  Future<Map<String, List<double>>> _countingLogic(Map<String, List<double>> poses) async {
+  Map<String, List<double>> _countingLogic(Map<String, List<double>> poses){
     if (poses != null) {
       print("in func");
       widget.res.add(poses);
-      print(widget.res);
+      //print(widget.res);
       //print(poses);
       // finalData.add(poses);
       // print(finalData);
@@ -190,10 +190,7 @@ class _RenderDataState extends State<RenderData> {
           );
         }).toList();
 
-        _countingLogic(inputArr).then((t) {
-          print("=============++++++++++++++===================");
-          print(t);
-        });
+        _countingLogic(inputArr);
         inputArr.clear();
 
         lists..addAll(list);

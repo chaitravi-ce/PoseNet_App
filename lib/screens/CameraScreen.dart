@@ -71,6 +71,12 @@ class _CameraScreenState extends State<CameraScreen> {
             screenW: screen.width,
             res: res
           ),
+          // TextButton(
+          //   child: Text("Get Results"),
+          //   onPressed: (){
+               
+          //   }
+          // )
         ],
       ),
     );

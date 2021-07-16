@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:posenet_app/screens/ResultScreen.dart';
 
 class RenderData extends StatefulWidget {
   
@@ -45,7 +44,6 @@ class _RenderDataState extends State<RenderData> {
 
   @override
   void initState() {
-    print("ininti------------------------------------------------------------");
     inputArr = new Map();
     shoulderLY = 0;
     shoulderRY = 0;
@@ -56,10 +54,10 @@ class _RenderDataState extends State<RenderData> {
 
   Map<String, List<double>> _countingLogic(Map<String, List<double>> poses){
     if (poses != null) {
-      print("in func");
-      widget.res.add(poses);
+      //print("in func");
+      //widget.res.add(poses);
       //print(widget.res);
-      //print(poses);
+      print(poses);
       // finalData.add(poses);
       // print(finalData);
       // print(finalData.length);
@@ -244,20 +242,19 @@ class _RenderDataState extends State<RenderData> {
           ],
         ),
         Stack(children: _renderKeypoints()),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: TextButton(
-            child: Text("Get Results"),
-            onPressed: (){
-              print("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-              print(widget.res);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => ResultScreen(finalData: finalData))
-              );
-            },
-          ),
-        )
+        // Align(
+        //   alignment: Alignment.bottomCenter,
+        //   child: TextButton(
+        //     child: Text("Get Results"),
+        //     onPressed: (){
+        //       print(widget.res);
+        //       // Navigator.pushReplacement(
+        //       //   context,
+        //       //   MaterialPageRoute(builder: (context) => ResultScreen(finalData: finalData))
+        //       // );
+        //     },
+        //   ),
+        // )
       ],
     );
   }

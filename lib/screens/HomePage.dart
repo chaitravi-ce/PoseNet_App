@@ -23,24 +23,44 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(title: Text("Pose Estimation"),),
       body: Center(
-        child: Column(
-          children: [
-            TextButton(
-              child: Text("Tap Me"), 
-              onPressed: (){
-                print("tap");
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras,)));
-              },
-            ),
-            TextButton(
-              child: Text("Test"), 
-              onPressed: (){
-                print("tap");
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TestScreen()));
-              },
-            ),
-          ],
-        ),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Stack(
+              children: <Widget>[
+                Positioned.fill(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: <Color>[
+                          Colors.black,
+                          Colors.black54,
+                          Colors.black12
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 18),
+                    primary: Colors.white,
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras,)));
+                  },
+                  child: const Text('Tap to open Camera'),
+                ),
+              ]
+            )
+          )
+            // TextButton(
+            //   child: Text("Tap to Open Camera"), 
+            //   onPressed: (){
+            //     print("tap");
+            //     Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras,)));
+            //   },
+            // ),
       )
     );
   }

@@ -38,7 +38,6 @@ class _CameraScreenState extends State<CameraScreen> {
     }
     setState(() {
       _data = data;
-      // print("==================================data============================");
       // print(data);
       _imageHeight = imageHeight;
       _imageWidth = imageWidth;
@@ -71,12 +70,6 @@ class _CameraScreenState extends State<CameraScreen> {
             screenW: screen.width,
             res: res
           ),
-          // TextButton(
-          //   child: Text("Get Results"),
-          //   onPressed: (){
-               
-          //   }
-          // )
         ],
       ),
     );

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class TestScreen extends StatefulWidget {
@@ -59,7 +59,6 @@ class _TestScreenState extends State<TestScreen> {
       //var values = dataSnapshot.value;
 
       //print(values[keys]);
-      print("================================End");
       print(finalD);
       return finalD;
     });
@@ -67,7 +66,7 @@ class _TestScreenState extends State<TestScreen> {
 
   @override
   void initState() {
-    getResults();
+    //getResults();
     super.initState();
   }
 
